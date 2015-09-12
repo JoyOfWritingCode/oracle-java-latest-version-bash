@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Print latest JavaSE SDK version, site-scraped from Oracle website
+
+# Fetch oracle downloads page markup
+ORACLE_URL=http://www.oracle.com/technetwork/java/javase/downloads/index.html
+content=$(wget -qO- $ORACLE_URL)
+
+# Parse the latest version, e.g. 8u60
+regex="Java SE ([0-9]+u[0-9]+)"
+if [[ $content =~ $regex ]]; then 	
+	echo ${BASH_REMATCH[1]}
+else
+	echo "Error: Unable to parse $ORACLE_URL"
+	exit 1
+fi
+
